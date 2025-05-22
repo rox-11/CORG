@@ -7,8 +7,8 @@ wearch
 ## INSTALLATION :
 
 ```bash 
-$ git clone https://github.com/rox-11/corg
-$ cd /corg
+$ git clone https://github.com/rox-11/CORG.git
+$ cd /CORG
 $ firefox index.html
 ``` 
 
