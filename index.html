@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CORG</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #F25F5C;
+      --primary-dark: #d13d3a;
+      --secondary: #FFE066;
+      --dark: #50514F;
+      --light: #F7F7F7;
+      --paper: #FDFDFD;
+      --border: #D8D8D8;
+      --shadow: 0 4px 20px rgba(0,0,0,0.05);
+      --radius: 12px;
+      --font-main: 'Karla', sans-serif;
+      --font-alt: 'Inter', sans-serif;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: var(--light);
+      font-family: var(--font-main);
+      color: var(--dark);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      line-height: 1.6;
+    }
+    .main-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+    .main-tab {
+      padding: 0.75rem 1.5rem;
+      background: var(--light);
+      border-radius: var(--radius) var(--radius) 0 0;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-alt);
+      font-weight: 600;
+      color: var(--dark);
+    }
+    .main-tab.active {
+      background: var(--primary);
+      color: var(--light);
+    }
+    .container {
+      background: var(--paper);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+    h1 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      font-size: 2.2rem;
+      font-weight: 7;
+      font-family: var(--font-alt);
+    }
+    .section {
+      margin-bottom: 1.5rem;
+    }
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-alt);
+    }
+    .section-title i {
+      color: var(--primary);
+    }
+    label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+      font-family: var(--font-alt);
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      transition: all 0.2s;
+      font-family: var(--font-main);
+    }
+    input:focus, select:focus, textarea:focus {
+      border: 1.5px solid var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(242,95,92,0.2);
+    }
+    button {
+      background: var(--primary);
+      color: var(--light);
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius);
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      font-family: var(--font-alt);
+    }
+    button:hover {
+      background: var(--primary-dark);
+    }
+    .btn-secondary {
+      background: var(--secondary);
+      color: var(--dark);
+      border: 1px solid #e0c85f;
+    }
+    .btn-secondary:hover {
+      background: #ffd633;
+    }
+    .btn-error {
+      background: #E15554;
+      color: var(--light);
+    }
+    .btn-error:hover {
+      background: #c13c3b;
+    }
+    .btn-success {
+      background: #70C1B3;
+      color: var(--light);
+    }
+    .btn-success:hover {
+      background: #5da89a;
+    }
+    .flex-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .flex-row > * {
+      flex: 1;
+    }
+    .output-container {
+      position: relative;
+      background: var(--light);
+      border-radius: var(--radius);
+      margin-top: 1.5rem;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      min-height: 100px;
+      max-height: 400px;
+      display: flex;
+      flex-direction: column;
+    }
+    .output {
+      flex: 1;
+      padding: 1rem;
+      font-family: 'Fira Mono', 'Consolas', monospace;
+      font-size: 0.9rem;
+      color: var(--dark);
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .error {
+      color: #E15554;
+      background: #fff0f0;
+      border-left: 4px solid #E15554;
+    }
+    .success {
+      color: #70C1B3;
+    }
+    .warning {
+      color: #FFE066;
+    }
+    .info-box {
+      background: #F0F7F4;
+      border-left: 4px solid var(--primary);
+      padding: 1rem;
+      border-radius: var(--radius);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+    .header-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .header-row input {
+      margin-bottom: 0;
+    }
+    .header-row button {
+      padding: 0.5rem;
+      min-width: 40px;
+      margin-bottom: 0;
+    }
+    .history-item {
+      background: var(--light);
+      border-radius: var(--radius);
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .history-item:hover {
+      background: #e8e8e8;
+    }
+    .history-item .method {
+      font-weight: bold;
+      color: var(--primary);
+    }
+    .response-info {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .response-info-item {
+      background: var(--light);
+      border-radius: var(--radius);
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: var(--light);
+      border-top: 1px solid var(--border);
+      border-radius: 0 0 var(--radius) var(--radius);
+      position: sticky;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+    }
+    .copy-btn {
+      background: var(--light);
+      color: var(--dark);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-alt);
+    }
+    .copy-btn:hover {
+      background: #e8e8e8;
+    }
+    .download-btn {
+      background: #70C1B3;
+      color: var(--light);
+      border: 1px solid #5da89a;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-alt);
+    }
+    .download-btn:hover {
+      background: #5da89a;
+    }
+    .screenshot-btn {
+      background: #FFE066;
+      color: var(--dark);
+      border: 1px solid #e0c85f;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-alt);
+    }
+    .screenshot-btn:hover {
+      background: #ffd633;
+    }
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .tab {
+      padding: 0.5rem 1rem;
+      background: var(--light);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: var(--font-alt);
+      font-weight: 500;
+    }
+    .tab.active {
+      background: var(--primary);
+      color: var(--light);
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .tool-content {
+      display: none;
+    }
+    .tool-content.active {
+      display: block;
+    }
+    .github-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 1rem;
+      font-family: var(--font-alt);
+    }
+    .github-link:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 768px) {
+      .flex-row {
+        flex-direction: column;
+      }
+      .container {
+        padding: 1.5rem;
+      }
+      .output-container {
+        max-height: 300px;
+      }
+    }
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><i class="fas fa-shield-alt"></i> CORG CORS And Clickjacking tester tool</h1>
+    <div class="main-tabs">
+      <div class="main-tab active" onclick="switchTool('cors')">CORS Tester</div>
+      <div class="main-tab" onclick="switchTool('clickjacking')">Clickjacking Tester</div>
+    </div>
+
+    <!-- CORS Tool -->
+    <div class="tool-content active" id="cors-tool">
+      <div class="info-box">
+        <i class="fas fa-info-circle"></i> Test any  endpoint with custom methods, headers, and body. CORS must be enabled on the target server.
+      </div>
+
+      <div class="section">
+        <div class="section-title"><i class="fas fa-link"></i> Request</div>
+        <div class="flex-row">
+          <div>
+            <label for="method">Method</label>
+            <select id="method">
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+              <option value="PUT">PUT</option>
+              <option value="DELETE">DELETE</option>
+              <option value="PATCH">PATCH</option>
+              <option value="OPTIONS">OPTIONS</option>
+            </select>
+          </div>
+          <div style="flex: 3;">
+            <label for="url">URL</label>
+            <input type="text" id="url" placeholder="example.com" autocomplete="off">
+          </div>
+        </div>
+        <label for="credentials">Credentials</label>
+        <select id="credentials">
+          <option value="omit">Omit</option>
+          <option value="include" selected>Include</option>
+          <option value="same-origin">Same-origin</option>
+        </select>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><i class="fas fa-heading"></i> Headers</div>
+        <div id="headers-container">
+          <div class="header-row">
+            <input type="text" placeholder="Header name" class="header-name" value="Content-Type">
+            <input type="text" placeholder="Header value" class="header-value" value="application/json">
+            <button class="btn-secondary" onclick="addHeaderRow()"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><i class="fas fa-file-alt"></i> Body</div>
+        <textarea id="body" rows="6" placeholder='{"key": "value"}'></textarea>
+      </div>
+
+      <div class="flex-row">
+        <button id="sendBtn" onclick="sendRequest()"><i class="fas fa-paper-plane"></i> Send Request</button>
+        <button class="btn-secondary" onclick="resetForm()"><i class="fas fa-redo"></i> Reset</button>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><i class="fas fa-history"></i> History</div>
+        <div id="history-container"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><i class="fas fa-reply"></i> Response</div>
+        <div class="response-info" id="response-info"></div>
+        <div class="tabs">
+          <div class="tab active" onclick="switchTab('body')">Body</div>
+          <div class="tab" onclick="switchTab('headers')">Headers</div>
+        </div>
+        <div class="tab-content active" id="body-tab">
+          <div class="output-container">
+            <div class="output" id="output"></div>
+            <div class="action-buttons">
+              <button class="copy-btn" onclick="copyOutput()"><i class="fas fa-copy"></i> Copy</button>
+              <button class="download-btn" onclick="downloadOutput()"><i class="fas fa-download"></i> Download</button>
+              <button class="screenshot-btn" onclick="takeScreenshot()"><i class="fas fa-camera"></i> Screenshot</button>
+            </div>
+          </div>
+        </div>
+        <div class="tab-content" id="headers-tab">
+          <div class="output-container">
+            <div class="output" id="headers-output"></div>
+            <div class="action-buttons">
+              <button class="copy-btn" onclick="copyHeaders()"><i class="fas fa-copy"></i> Copy</button>
+              <button class="download-btn" onclick="downloadHeaders()"><i class="fas fa-download"></i> Download</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clickjacking Tool -->
+    <div class="tool-content" id="clickjacking-tool">
+      <div class="info-box">
+        <i class="fas fa-info-circle"></i> Test if a web page is vulnerable to clickjacking by checking for <code>X-Frame-Options</code> and <code>Content-Security-Policy</code> headers.
+      </div>
+
+      <div class="section">
+        <div class="section-title"><i class="fas fa-link"></i> Enter URL</div>
+        <input type="text" id="clickjacking-url" placeholder="https://example.com" autocomplete="off">
+        <button onclick="testClickjacking()"><i class="fas fa-search"></i> Test Clickjacking</button>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><i class="fas fa-reply"></i> Result</div>
+        <div class="output-container">
+          <div class="output" id="clickjacking-result"></div>
+          <div class="action-buttons">
+            <button class="copy-btn" onclick="copyClickjackingResult()"><i class="fas fa-copy"></i> Copy</button>
+            <button class="download-btn" onclick="downloadClickjackingResult()"><i class="fas fa-download"></i> Download</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><i class="fas fa-window-maximize"></i> Try to Frame</div>
+        <iframe id="clickjacking-frame" src="about:blank" sandbox="allow-same-origin allow-scripts allow-popups"></iframe>
+        <div class="flex-row" style="margin-top: 1rem;">
+          <input type="text" id="inject-text" placeholder="Text to inject into frame" style="flex: 1;">
+          <button onclick="injectTextToFrame()"><i class="fas fa-plus"></i> Add Text to Frame</button>
+        </div>
+      </div>
+    </div>
+
+    <a href="https://github.com/rox-11" class="github-link" target="_blank" rel="noopener noreferrer">
+      <i class="fab fa-github"></i> rox-11 on GitHub
+    </a>
+  </div>
+
+  <!-- html2canvas for screenshots -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <script>
+    // --- Tool Switching ---
+    function switchTool(tool) {
+      document.querySelectorAll('.main-tab').forEach(el => el.classList.remove('active'));
+      document.querySelector(`.main-tab[onclick="switchTool('${tool}')"]`).classList.add('active');
+      document.querySelectorAll('.tool-content').forEach(el => el.classList.remove('active'));
+      document.getElementById(`${tool}-tool`).classList.add('active');
+    }
+
+    // --- CORS Tester ---
+    let requestHistory = [];
+
+    // Clear placeholder on focus
+    document.getElementById('url').addEventListener('focus', function() {
+      if (this.value === 'example.com') this.value = '';
+    });
+
+    // Restore placeholder on blur if empty
+    document.getElementById('url').addEventListener('blur', function() {
+      if (!this.value) this.value = 'example.com';
+    });
+
+    function addHeaderRow() {
+      const container = document.getElementById('headers-container');
+      const row = document.createElement('div');
+      row.className = 'header-row';
+      row.innerHTML = `
+        <input type="text" placeholder="Header name" class="header-name">
+        <input type="text" placeholder="Header value" class="header-value">
+        <button class="btn-error" onclick="this.parentNode.remove()"><i class="fas fa-times"></i></button>
+      `;
+      container.appendChild(row);
+    }
+
+    function resetForm() {
+      document.getElementById('url').value = '';
+      document.getElementById('url').placeholder = 'example.com';
+      document.getElementById('method').value = 'GET';
+      document.getElementById('credentials').value = 'include';
+      document.getElementById('body').value = '';
+      document.getElementById('headers-container').innerHTML = `
+        <div class="header-row">
+          <input type="text" placeholder="Header name" class="header-name" value="Content-Type">
+          <input type="text" placeholder="Header value" class="header-value, value="application/json">
+          <button class="btn-secondary" onclick="addHeaderRow()"><i class="fas fa-plus"></i></button>
+        </div>
+      `;
+      document.getElementById('output').textContent = '';
+      document.getElementById('headers-output').textContent = '';
+      document.getElementById('response-info').innerHTML = '';
+    }
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabName + '-tab').classList.add('active');
+      document.querySelector(`.tab[onclick="switchTab('${tabName}')"]`).classList.add('active');
+    }
+
+    async function sendRequest() {
+      const url = document.getElementById('url').value.trim();
+      const method = document.getElementById('method').value;
+      const credentials = document.getElementById('credentials').value;
+      const body = document.getElementById('body').value.trim();
+
+      const headers = {};
+      document.querySelectorAll('.header-row').forEach(row => {
+        const name = row.querySelector('.header-name').value.trim();
+        const value = row.querySelector('.header-value').value.trim();
+        if (name && value) headers[name] = value;
+      });
+
+      const output = document.getElementById('output');
+      const headersOutput = document.getElementById('headers-output');
+      const responseInfo = document.getElementById('response-info');
+      output.classList.remove('error');
+      output.textContent = 'Loading...';
+      headersOutput.textContent = '';
+      responseInfo.innerHTML = '';
+
+      const startTime = performance.now();
+
+      try {
+        const options = { method, credentials };
+        if (method !== 'GET' && method !== 'HEAD') {
+          options.body = body;
+        }
+        if (Object.keys(headers).length > 0) {
+          options.headers = headers;
+        }
+
+        const response = await fetch(url, options);
+        const endTime = performance.now();
+        const duration = (endTime - startTime).toFixed(2);
+
+        // Response info
+        let infoHTML = `
+          <div class="response-info-item"><i class="fas fa-check-circle"></i> Status: ${response.status} ${response.statusText}</div>
+          <div class="response-info-item"><i class="fas fa-clock"></i> Time: ${duration} ms</div>
+          <div class="response-info-item"><i class="fas fa-database"></i> Size: ${response.headers.get('content-length') || 'unknown'} bytes</div>
+        `;
+        responseInfo.innerHTML = infoHTML;
+
+        // Headers
+        let headersText = '';
+        response.headers.forEach((value, key) => {
+          headersText += `${key}: ${value}\n`;
+        });
+        headersOutput.textContent = headersText;
+
+        // Body
+        let data;
+        const contentType = response.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          data = await response.json();
+          output.textContent = JSON.stringify(data, null, 2);
+        } else {
+          data = await response.text();
+          output.textContent = data;
+        }
+
+        // Add to history
+        addToHistory(url, method, response.status, duration);
+      } catch (err) {
+        output.classList.add('error');
+        output.textContent = "Error: " + err.message + 
+          "\n\nTip: If you see a CORS error, the server does not allow cross-origin requests from this page.";
+      }
+    }
+
+    function addToHistory(url, method, status, duration) {
+      requestHistory.unshift({ url, method, status, duration });
+      if (requestHistory.length > 10) requestHistory.pop();
+      updateHistory();
+    }
+
+    function updateHistory() {
+      const container = document.getElementById('history-container');
+      container.innerHTML = '';
+      requestHistory.forEach((req, i) => {
+        const item = document.createElement('div');
+        item.className = 'history-item';
+        item.innerHTML = `
+          <span class="method">${req.method}</span> ${req.url}
+          <br><small>Status: ${req.status} | Time: ${req.duration} ms</small>
+        `;
+        item.onclick = () => {
+          document.getElementById('url').value = req.url;
+          document.getElementById('method').value = req.method;
+        };
+        container.appendChild(item);
+      });
+    }
+
+    function copyOutput() {
+      navigator.clipboard.writeText(document.getElementById('output').textContent)
+        .then(() => alert('Copied to clipboard!'))
+        .catch(err => alert('Failed to copy: ' + err));
+    }
+
+    function copyHeaders() {
+      navigator.clipboard.writeText(document.getElementById('headers-output').textContent)
+        .then(() => alert('Copied to clipboard!'))
+        .catch(err => alert('Failed to copy: ' + err));
+    }
+
+    function downloadText(text, filename) {
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function downloadOutput() {
+      const text = document.getElementById('output').textContent;
+      downloadText(text, 'response.txt');
+    }
+
+    function downloadHeaders() {
+      const text = document.getElementById('headers-output').textContent;
+      downloadText(text, 'headers.txt');
+    }
+
+    function takeScreenshot() {
+      const element = document.getElementById('output');
+      html2canvas(element).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'response-screenshot.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+
+    // --- Clickjacking Tester ---
+    async function testClickjacking() {
+      const url = document.getElementById('clickjacking-url').value.trim();
+      if (!url) return alert('Please enter a URL');
+
+      const result = document.getElementById('clickjacking-result');
+      result.classList.remove('error', 'success');
+      result.textContent = 'Loading...';
+
+      try {
+        // Try to set iframe src
+        const frame = document.getElementById('clickjacking-frame');
+        frame.src = url;
+
+        result.textContent = `Testing if ${url} can be framed...\n\n`;
+        result.textContent += 'Note: Due to browser security, we cannot always read the headers of external sites.\n\n';
+        result.textContent += 'If the page loads in the frame below, it might be vulnerable to clickjacking unless it uses JavaScript to break out of frames.\n\n';
+        result.textContent += 'Look for these headers in your browser\'s developer tools (Network tab):\n';
+        result.textContent += '- X-Frame-Options: DENY or SAMEORIGIN (secure)\n';
+        result.textContent += '- Content-Security-Policy: frame-ancestors \'none\' or \'self\' (secure)\n\n';
+        result.textContent += 'If neither header is present, the site may be vulnerable.';
+      } catch (err) {
+        result.classList.add('error');
+        result.textContent = "Error: " + err.message + 
+          "\n\nTip: You cannot read headers from external sites due to CORS. Use the iframe to test if the page can be framed.";
+      }
+    }
+
+    function injectTextToFrame() {
+      const text = document.getElementById('inject-text').value.trim();
+      if (!text) return alert('Please enter some text to inject');
+
+      const frame = document.getElementById('clickjacking-frame');
+      try {
+        // Try to inject text into the iframe
+        const frameDoc = frame.contentDocument || frame.contentWindow.document;
+        frameDoc.body.innerHTML += `<div style="position: absolute; top: 10px; left: 10px; background: rgba(255,255,255,0.9); padding: 10px; border-radius: 5px; z-index: 9999;">${text}</div>`;
+      } catch (err) {
+        alert('Cannot inject text into this iframe due to security restrictions. Try with a same-origin page.');
+        console.error(err);
+      }
+    }
+
+    function copyClickjackingResult() {
+      navigator.clipboard.writeText(document.getElementById('clickjacking-result').textContent)
+        .then(() => alert('Copied to clipboard!'))
+        .catch(err => alert('Failed to copy: ' + err));
+    }
+
+    function downloadClickjackingResult() {
+      const text = document.getElementById('clickjacking-result').textContent;
+      downloadText(text, 'clickjacking-result.txt');
+    }
+  </script>
+</body>
+</html>
+
