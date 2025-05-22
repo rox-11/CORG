@@ -1,4 +1,4 @@
-wearch
+CORG
 ===
 
 <h3> CORG a tool that check CORS and clickjacking vulnerability with easy gui html website  </h3> 
